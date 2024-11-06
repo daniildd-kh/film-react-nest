@@ -1,19 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Schedule } from "./schedules.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Schedule } from './schedules.entity';
 
 @Entity({ name: 'films' })
 export class Film {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column("double precision")
+  @Column('double precision')
   rating: number;
-  
+
   @Column()
   director: string;
 
-  @Column("text")
+  @Column('text')
   tags: string;
 
   @Column()

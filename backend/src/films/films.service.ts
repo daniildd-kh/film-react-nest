@@ -7,7 +7,7 @@ export class FilmsService {
 
   async getAllFilms() {
     const films = await this.filmsRepository.findAll();
-    
+
     if (!films || films.length === 0) {
       throw new NotFoundException('Нет записей');
     }
@@ -16,7 +16,7 @@ export class FilmsService {
 
   async getFilm(id: string) {
     const film = await this.filmsRepository.findOne(id);
-    
+
     if (!film) {
       throw new NotFoundException('Нет расписания');
     }

@@ -19,11 +19,15 @@ export class OrderService {
       if (!selectedSession) throw new BadRequestException('Сеанс не найден');
 
       const seatPicked = `${row}:${seat}`;
-      const isSeatTaken = selectedSession.taken?.split(',').includes(seatPicked);
+      const isSeatTaken = selectedSession.taken
+        ?.split(',')
+        .includes(seatPicked);
 
       if (isSeatTaken) throw new BadRequestException('Это место уже занято');
 
-      selectedSession.taken = selectedSession.taken ? `${selectedSession.taken},${seatPicked}` : seatPicked;
+      selectedSession.taken = selectedSession.taken
+        ? `${selectedSession.taken},${seatPicked}`
+        : seatPicked;
 
       await this.filmsRepository.updateFilm(filmInDB);
     }

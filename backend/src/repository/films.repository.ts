@@ -59,11 +59,9 @@ export class FilmsDbRepository implements FilmsRepository {
       where: { id },
       relations: { schedules: true },
     });
-
   }
 
   async updateFilm(film: Film) {
-       await this.filmModel.save(film);
-  }  
-  
+    await this.filmModel.save(film);
+  }
 }

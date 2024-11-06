@@ -3,7 +3,9 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Film } from './repository/entities/films.entity';
 import { Schedule } from './repository/entities/schedules.entity';
 
-export const getConfig = (configService: ConfigService): TypeOrmModuleOptions => {
+export const getConfig = (
+  configService: ConfigService,
+): TypeOrmModuleOptions => {
   const databaseDriver = configService.get<string>('DATABASE_DRIVER');
 
   if (databaseDriver === 'postgres') {

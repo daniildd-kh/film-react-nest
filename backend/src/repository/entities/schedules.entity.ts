@@ -1,9 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Film } from "./films.entity";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { Film } from './films.entity';
 
 @Entity({ name: 'schedules' })
 export class Schedule {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,13 +24,13 @@ export class Schedule {
   @Column()
   seats: number;
 
-  @Column("double precision", {nullable: true })
+  @Column('double precision', { nullable: true })
   price: number;
 
   @Column({ type: 'text' })
   taken: string;
 
   @ManyToOne(() => Film, (film) => film.schedules)
-  @JoinColumn({ name: "filmId" })
+  @JoinColumn({ name: 'filmId' })
   film: Film;
 }
