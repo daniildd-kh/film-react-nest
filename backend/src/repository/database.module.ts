@@ -1,20 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { getConfig } from 'src/app.config.provider';
 
 @Module({
   imports: [
-    ConfigModule,
-    MongooseModule.forRootAsync({
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        const { url } = getConfig(configService);
-        return {
-          uri: url,
-        };
-      },
       inject: [ConfigService],
+      useFactory: (configService: ConfigService) => getConfig(configService),
     }),
   ],
 })

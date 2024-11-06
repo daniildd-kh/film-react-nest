@@ -5,7 +5,7 @@ export class GetScheduleDto {
   rows: number;
   seats: number;
   price: number;
-  taken: string[];
+  taken: string;
 }
 
 export class GetFilmDto {
