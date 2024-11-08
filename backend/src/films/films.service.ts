@@ -1,30 +1,31 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { FilmsMongoDbRepository } from 'src/repository/films.repository';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { PostgresFilmsRepository } from '../repository/postgres-films.repository';
+import { MongoFilmsRepository } from '../repository/mongo-films.repository';
 
 @Injectable()
 export class FilmsService {
-  constructor(private readonly filmsRepository: FilmsMongoDbRepository) {}
+  constructor(
+    @Inject('FILMS_REPOSITORY')
+    private readonly filmsRepository:
+      | PostgresFilmsRepository
+      | MongoFilmsRepository,
+  ) {}
 
   async getAllFilms() {
     const films = await this.filmsRepository.findAll();
+
     if (!films || films.length === 0) {
       throw new NotFoundException('Нет записей');
     }
-
-    return {
-      total: films.length,
-      items: films,
-    };
+    return films;
   }
 
-  async getFilmSchedule(id: string) {
-    const schedule = await this.filmsRepository.findOne(id);
-    if (!schedule) {
+  async getFilm(id: string) {
+    const film = await this.filmsRepository.findOne(id);
+
+    if (!film) {
       throw new NotFoundException('Нет расписания');
     }
-
-    return {
-      items: schedule,
-    };
+    return film;
   }
 }
