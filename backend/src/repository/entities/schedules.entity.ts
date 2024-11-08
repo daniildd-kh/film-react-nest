@@ -5,7 +5,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Film } from './films.entity';
+import { FilmEntity } from './films.entity';
 
 @Entity({ name: 'schedules' })
 export class Schedule {
@@ -30,7 +30,7 @@ export class Schedule {
   @Column({ type: 'text' })
   taken: string;
 
-  @ManyToOne(() => Film, (film) => film.schedules)
+  @ManyToOne(() => FilmEntity, (film) => film.schedule)
   @JoinColumn({ name: 'filmId' })
-  film: Film;
+  film: FilmEntity;
 }

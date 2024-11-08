@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Schedule } from './schedules.entity';
 
 @Entity({ name: 'films' })
-export class Film {
+export class FilmEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -31,5 +31,5 @@ export class Film {
   description: string;
 
   @OneToMany(() => Schedule, (schedule) => schedule.film, { cascade: true })
-  schedules: Schedule[];
+  schedule: Schedule[];
 }
