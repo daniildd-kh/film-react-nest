@@ -1,17 +1,13 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { GetFilmDto, GetScheduleDto } from 'src/films/dto/films.dto';
 import { FilmEntity } from './entities/films.entity';
-import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-
-interface FilmsRepository {
-  findAll(): Promise<GetFilmDto[]>;
-  findOne(id: string): Promise<GetFilmDto | null>;
-  updateFilm(film: FilmEntity): Promise<void>;
-}
 
 @Injectable()
-export class PostgresFilmsRepository implements FilmsRepository {
+export class PostgresFilmsRepository {
+  private readonly logger = new Logger(PostgresFilmsRepository.name);
+
   constructor(
     @InjectRepository(FilmEntity)
     private filmRepository: Repository<FilmEntity>,
@@ -45,21 +41,30 @@ export class PostgresFilmsRepository implements FilmsRepository {
   }
 
   async findAll(): Promise<GetFilmDto[]> {
+    this.logger.log('PostgreSQL: Выполняется запрос всех фильмов...');
     const films = await this.filmRepository.find({
       relations: { schedule: true },
     });
+    this.logger.log(`PostgreSQL: Найдено ${films.length} фильмов.`);
     return films.map((film) => this.mapFilmToDto(film));
   }
 
   async findOne(id: string): Promise<GetFilmDto | null> {
+    this.logger.log(`PostgreSQL: Выполняется запрос фильма по id: ${id}`);
     const film = await this.filmRepository.findOne({
       where: { id },
       relations: { schedule: true },
     });
+    if (!film) {
+      this.logger.warn(`PostgreSQL: Фильм с id: ${id} не найден.`);
+      return null;
+    }
+    this.logger.log(`PostgreSQL: Фильм с id: ${id} найден.`);
     return this.mapFilmToDto(film);
   }
 
   async findOneRaw(id: string): Promise<FilmEntity | null> {
+    this.logger.log(`PostgreSQL: Выполняется запрос фильма (сырой) по id: ${id}`);
     return await this.filmRepository.findOne({
       where: { id },
       relations: { schedule: true },
@@ -67,6 +72,8 @@ export class PostgresFilmsRepository implements FilmsRepository {
   }
 
   async updateFilm(film: FilmEntity) {
+    this.logger.log(`PostgreSQL: Обновление фильма с id: ${film.id}`);
     await this.filmRepository.save(film);
+    this.logger.log(`PostgreSQL: Фильм с id: ${film.id} обновлен.`);
   }
 }
