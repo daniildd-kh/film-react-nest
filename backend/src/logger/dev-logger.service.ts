@@ -15,10 +15,10 @@ export class DevLogger extends ConsoleLogger {
   }
 
   debug(message: any, ...optionalParams: any[]) {
-    super.error(`[DEBUG] ${message}`, ...optionalParams);
+    super.debug(`[DEBUG] ${message}`, ...optionalParams);
   }
 
   verbose(message: any, ...optionalParams: any[]) {
-    super.warn(`[VERBOSE] ${message}`, ...optionalParams);
+    super.verbose(`[INFO] ${message}`, ...optionalParams);
   }
 }
