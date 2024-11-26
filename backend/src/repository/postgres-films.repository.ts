@@ -64,7 +64,9 @@ export class PostgresFilmsRepository {
   }
 
   async findOneRaw(id: string): Promise<FilmEntity | null> {
-    this.logger.log(`PostgreSQL: Выполняется запрос фильма (сырой) по id: ${id}`);
+    this.logger.log(
+      `PostgreSQL: Выполняется запрос фильма (сырой) по id: ${id}`,
+    );
     return await this.filmRepository.findOne({
       where: { id },
       relations: { schedule: true },

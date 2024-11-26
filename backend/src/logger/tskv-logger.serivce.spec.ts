@@ -1,11 +1,13 @@
-import { TskvLogger } from "./tskv-logger.service";
+import { TskvLogger } from './tskv-logger.service';
 
 describe('TskvLogger', () => {
   let logger: TskvLogger;
 
   beforeEach(() => {
     logger = new TskvLogger();
-    jest.spyOn(Date.prototype, 'toISOString').mockReturnValue('2000-01-01T00:00:00.000Z');
+    jest
+      .spyOn(Date.prototype, 'toISOString')
+      .mockReturnValue('2000-01-01T00:00:00.000Z');
     jest.spyOn(console, 'log').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
     jest.spyOn(console, 'warn').mockImplementation(() => {});

@@ -5,6 +5,6 @@ import { TskvLogger } from './tskv-logger.service';
 
 @Module({
   providers: [DevLogger, JsonLogger, TskvLogger],
-  exports: [DevLogger, JsonLogger, TskvLogger]
+  exports: [DevLogger, JsonLogger, TskvLogger],
 })
 export class LoggerModule {}

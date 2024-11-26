@@ -56,7 +56,9 @@ export class MongoFilmsRepository {
   }
 
   async findOneAsDocument(id: string) {
-    this.logger.log(`MongoDB: Выполняется запрос фильма как документ для id: ${id}`);
+    this.logger.log(
+      `MongoDB: Выполняется запрос фильма как документ для id: ${id}`,
+    );
     return await this.filmModel.findOne({ id: id });
   }
 }

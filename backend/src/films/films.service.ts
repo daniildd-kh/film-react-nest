@@ -18,7 +18,7 @@ export class FilmsService {
     const films = await this.filmsRepository.findAll();
 
     if (!films || films.length === 0) {
-      this.logger.error('Нет записей'); 
+      this.logger.error('Нет записей');
       throw new NotFoundException('Нет записей');
     }
     return films;
@@ -29,7 +29,7 @@ export class FilmsService {
     const film = await this.filmsRepository.findOne(id);
 
     if (!film) {
-      this.logger.warn(`Фильм с ID ${id} не найден`); 
+      this.logger.warn(`Фильм с ID ${id} не найден`);
       throw new NotFoundException('Фильм не найден');
     }
     return film;

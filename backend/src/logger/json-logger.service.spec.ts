@@ -1,5 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { DevLogger } from './dev-logger.service';
 import { JsonLogger } from './json-logger.service';
 
 describe('JsonLogger', () => {
@@ -25,7 +23,7 @@ describe('JsonLogger', () => {
     logger.log(message, ...optionalParams);
 
     expect(console.log).toHaveBeenCalledWith(
-      '{"level":"log","message":"Test message","optionalParams":[["param1",123]]}'
+      '{"level":"log","message":"Test message","optionalParams":[["param1",123]]}',
     );
   });
 
@@ -36,7 +34,7 @@ describe('JsonLogger', () => {
     logger.error(message, ...optionalParams);
 
     expect(console.error).toHaveBeenCalledWith(
-      '{"level":"error","message":"Error occurred","optionalParams":[["param1"]]}'
+      '{"level":"error","message":"Error occurred","optionalParams":[["param1"]]}',
     );
   });
 
@@ -47,7 +45,7 @@ describe('JsonLogger', () => {
     logger.warn(message, ...optionalParams);
 
     expect(console.warn).toHaveBeenCalledWith(
-      '{"level":"warn","message":"Warning","optionalParams":[["param1"]]}'
+      '{"level":"warn","message":"Warning","optionalParams":[["param1"]]}',
     );
   });
 
@@ -58,7 +56,7 @@ describe('JsonLogger', () => {
     logger.debug(message, ...optionalParams);
 
     expect(console.debug).toHaveBeenCalledWith(
-      '{"level":"debug","message":"Debug message","optionalParams":[["param1"]]}'
+      '{"level":"debug","message":"Debug message","optionalParams":[["param1"]]}',
     );
   });
 
@@ -69,7 +67,7 @@ describe('JsonLogger', () => {
     logger.verbose(message, ...optionalParams);
 
     expect(console.info).toHaveBeenCalledWith(
-      '{"level":"verbose","message":"Verbose message","optionalParams":[["param1"]]}'
+      '{"level":"verbose","message":"Verbose message","optionalParams":[["param1"]]}',
     );
   });
 });

@@ -1,14 +1,11 @@
 import { Controller, Get, Logger, Param } from '@nestjs/common';
 import { FilmsService } from './films.service';
-import { DevLogger } from '../logger/dev-logger.service';
 
 @Controller('/films/')
 export class FilmsController {
   private readonly logger = new Logger(FilmsController.name);
-  
-  constructor(
-    private readonly filmsService: FilmsService,
-  ) {}
+
+  constructor(private readonly filmsService: FilmsService) {}
 
   @Get()
   async getFilms() {

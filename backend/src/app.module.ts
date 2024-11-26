@@ -7,8 +7,6 @@ import { FilmsModule } from './films/films.module';
 import { RepositoryModule } from './repository/repository.module';
 import { DatabaseModule } from './repository/database.module';
 import { LoggerModule } from './logger/logger.module';
-import { DevLogger } from './logger/dev-logger.service';
-import { JsonLogger } from './logger/json-logger.service';
 
 @Module({
   imports: [

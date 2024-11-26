@@ -5,10 +5,8 @@ import { OrderDto } from './dto/order.dto';
 @Controller('/order')
 export class OrderController {
   private readonly logger = new Logger(OrderController.name);
-  
-  constructor(
-    private readonly orderService: OrderService,
-  ) {}
+
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   async makeOrder(@Body() orderDto: OrderDto) {

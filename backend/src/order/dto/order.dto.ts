@@ -1,4 +1,4 @@
-class SessionDto {
+export class SessionDto {
   film: string;
   session: string;
   daytime: string;

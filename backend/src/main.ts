@@ -6,7 +6,7 @@ import { JsonLogger } from './logger/json-logger.service';
 import { TskvLogger } from './logger/tskv-logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {   bufferLogs: true,});
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   const env = process.env.NODE_ENVIROMENT || 'development';
   if (env === 'development') {
