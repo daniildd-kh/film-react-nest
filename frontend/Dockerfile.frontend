@@ -1,0 +1,25 @@
+FROM node:20-alpine as builder
+
+WORKDIR /www/build
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
+
+FROM node:20-alpine as production
+
+WORKDIR /frontend
+
+COPY --from=builder /www/build/package*.json ./
+
+RUN npm i --omit=dev
+
+COPY --from=builder /www/build/dist ./dist
+
+EXPOSE 80
