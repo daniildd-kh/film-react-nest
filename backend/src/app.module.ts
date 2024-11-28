@@ -1,4 +1,3 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
@@ -18,9 +17,10 @@ import { DatabaseModule } from './repository/database.module';
       rootPath: join(__dirname, '..', 'public/content/afisha'),
       serveRoot: '/content/afisha',
     }),
-    DatabaseModule,
     OrderModule,
     FilmsModule,
+    DatabaseModule.forRoot(),
+    RepositoryModule.forDatabase(),
     RepositoryModule,
   ],
   controllers: [],

@@ -7,11 +7,18 @@ export class FilmsController {
 
   @Get()
   async getFilms() {
-    return await this.filmsService.getAllFilms();
+    const films = await this.filmsService.getAllFilms();
+    return {
+      total: films.length,
+      items: films,
+    };
   }
 
   @Get(':id/schedule')
   async getFilmSchedule(@Param('id') id: string) {
-    return await this.filmsService.getFilmSchedule(id);
+    const film = await this.filmsService.getFilm(id);
+    return {
+      items: film.schedule,
+    };
   }
 }
