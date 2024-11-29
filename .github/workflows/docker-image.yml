@@ -37,6 +37,8 @@ jobs:
           id: backend-meta
           uses: docker/metadata-action@v4
           with:
+            tags:
+              type=raw,value=latest
             images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend
 
         - name: Build and push Docker backend image
@@ -52,6 +54,8 @@ jobs:
           id: frontend-meta
           uses: docker/metadata-action@v4
           with:
+            tags:
+              type=raw,value=latest
             images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend
 
         - name: Build and push Docker frontend image
