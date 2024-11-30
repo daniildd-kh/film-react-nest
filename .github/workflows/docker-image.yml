@@ -66,3 +66,20 @@ jobs:
               push: true
               tags: ${{ steps.frontend-meta.outputs.tags }}
               labels: ${{ steps.frontend-meta.outputs.labels }}
+
+        - name: Extract metadata for nginx
+          id: nginx-meta
+          uses: docker/metadata-action@v4
+          with:
+              tags:
+                type=raw,value=latest
+              images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-nginx
+    
+        - name: Build and push Docker nginx image
+          uses: docker/build-push-action@v4
+          with:
+              context: ./nginx
+              file: ./nginx/Dockerfile.nginx
+              push: true
+              tags: ${{ steps.nginx-meta.outputs.tags }}
+              labels: ${{ steps.nginx-meta.outputs.labels }}

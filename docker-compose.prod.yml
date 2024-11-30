@@ -1,14 +1,12 @@
 services:
   frontend: 
     container_name: film-frontend
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
     volumes:
       - frontend-volume:/frontend/dist
     image: ghcr.io/daniildd-kh/film-react-nest-frontend:latest
-    env_file:
-      - ./frontend/.env
+    environment:
+      VITE_API_URL: http://localhost:3000/api/afisha
+      VITE_CDN_URL: http://localhost:3000/content/afisha
     depends_on:
       - backend
     networks:
@@ -16,11 +14,14 @@ services:
 
   backend: 
     container_name: film-backend
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile.backend
-    env_file:
-      - ./backend/.env
+    environment:
+      NODE_ENVIROMENT: production
+      DATABASE_DRIVER: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: prac
+      DATABASE_USERNAME: prac
+      DATABASE_PASSWORD: prac
     image: ghcr.io/daniildd-kh/film-react-nest-backend:latest
     ports:
       - "3000:3000"
@@ -38,7 +39,6 @@ services:
       POSTGRES_DB: prac
       PGDATA: /postgresql/pgdata
     volumes:
-      - ./backend/test:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
     networks:
       - app-network
@@ -47,9 +47,6 @@ services:
 
   nginx:
     container_name: film-nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
     image: ghcr.io/daniildd-kh/film-react-nest-nginx:latest
     ports:
       - "80:80"
