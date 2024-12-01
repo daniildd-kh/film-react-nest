@@ -47,17 +47,27 @@ services:
 
   nginx:
     container_name: film-nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
     image: ghcr.io/daniildd-kh/film-react-nest-nginx:latest
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - frontend-volume:/usr/share/nginx/html:ro
+      - ./nginx/certbot-www:/var/www/certbot
+      - ./certbot/etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - frontend
       - backend
+    networks:
+      - app-network
+      
+  certbot:
+    image: certbot/certbot:latest
+    container_name: film-certbot
+    volumes:
+      - ./certbot/etc/letsencrypt:/etc/letsencrypt
+      - ./certbot/var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./nginx/certbot-www:/var/www/certbot
     networks:
       - app-network
 
