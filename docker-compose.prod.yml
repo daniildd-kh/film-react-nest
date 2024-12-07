@@ -1,0 +1,92 @@
+services:
+  frontend: 
+    container_name: film-frontend
+    volumes:
+      - frontend-volume:/frontend/dist
+    image: ghcr.io/daniildd-kh/film-react-nest-frontend:latest
+    environment:
+      VITE_API_URL: http://localhost:3000/api/afisha
+      VITE_CDN_URL: http://localhost:3000/content/afisha
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend: 
+    container_name: film-backend
+    environment:
+      NODE_ENVIROMENT: production
+      DATABASE_DRIVER: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: prac
+      DATABASE_USERNAME: prac
+      DATABASE_PASSWORD: prac
+    image: ghcr.io/daniildd-kh/film-react-nest-backend:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  postgres: 
+    container_name: film-postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: prac
+      POSTGRES_USER: prac
+      POSTGRES_DB: prac
+      PGDATA: /postgresql/pgdata
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    ports:
+      - "5432:5432"
+
+  nginx:
+    container_name: film-nginx
+    image: ghcr.io/daniildd-kh/film-react-nest-nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - frontend-volume:/usr/share/nginx/html:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+      
+  certbot:
+    image: certbot/certbot:latest
+    container_name: film-certbot
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: film-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.ru
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      - app-network
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres 
+
+volumes:
+  frontend-volume:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
